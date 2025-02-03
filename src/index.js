@@ -9,7 +9,7 @@ import { HelmetProvider } from 'react-helmet-async';
 const AdSenseScript = () => (
   <React.Fragment>
    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6342305342378595"
-     crossorigin="anonymous"/>
+     crossOrigin="anonymous"/>
   </React.Fragment>
 );
 
