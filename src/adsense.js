@@ -14,13 +14,17 @@ const AdDisplay = ({ slot, format = 'auto', style = {} }) => {
         <div style={{ overflow: 'hidden', margin: '20px 0' }}>
             <ins
                 className="adsbygoogle"
-                style="display:block"
+                style={{
+                    display: 'block',
+                    textAlign: 'center',
+                    ...style
+                }}
+               
                 data-ad-client="ca-pub-6342305342378595"
-                data-ad-slot={slot}
+                data-ad-slot="2276648312"
                 data-ad-format="auto"
-                data-full-width-responsive="true" />
-
-
+                data-full-width-responsive="true"
+            />
         </div>
     );
 };
