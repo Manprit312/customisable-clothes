@@ -3,11 +3,23 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { HelmetProvider } from 'react-helmet-async';
+
+// Create AdSense script element
+const AdSenseScript = () => (
+  <React.Fragment>
+   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6342305342378595"
+     crossorigin="anonymous"/>
+  </React.Fragment>
+);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <HelmetProvider>
+      <AdSenseScript />
+      <App />
+    </HelmetProvider>
   </React.StrictMode>
 );
 

@@ -6,7 +6,7 @@ import jsPDF from 'jspdf';
 import { SketchPicker } from 'react-color';
 import Modal from 'react-modal';
 import './App.css';
-
+import SEOWrapper from './Helmet';
 // Set app element for react-modal
 Modal.setAppElement('#root');
 
@@ -63,25 +63,27 @@ const App = () => {
     }
   }, [selectedImage]);
 
-const captureStageAsImage = () => {
-  setTransformerVisible(false);
-  setTimeout(()=>{ if (stageRef.current) {
-    // Hide the Transformer before capturing
+  const captureStageAsImage = () => {
+    setTransformerVisible(false);
+    setTimeout(() => {
+      if (stageRef.current) {
+        // Hide the Transformer before capturing
 
 
-    html2canvas(stageRef.current.getStage().getContainer()).then((canvas) => {
-      const imgData = canvas.toDataURL('image/png');
-      setPreviewImage(imgData);
-      setPreviewVisible(true);
+        html2canvas(stageRef.current.getStage().getContainer()).then((canvas) => {
+          const imgData = canvas.toDataURL('image/png');
+          setPreviewImage(imgData);
+          setPreviewVisible(true);
 
-      // Restore the Transformer visibility after capturing
-      setTransformerVisible(true);
-    });
-  } else {
-    setTransformerVisible(true); // Ensure Transformer is visible if no stage
-  }},300)
- 
-};
+          // Restore the Transformer visibility after capturing
+          setTransformerVisible(true);
+        });
+      } else {
+        setTransformerVisible(true); // Ensure Transformer is visible if no stage
+      }
+    }, 300)
+
+  };
 
 
   const handleExportAsImage = () => {
@@ -124,70 +126,73 @@ const captureStageAsImage = () => {
   };
 
   return (
-    <div className="app-container">
-      <div className="sidebar">
-        <h2>Customize Your T-Shirt</h2>
-        <label className="file-label">
-          <span>Upload Image</span>
-          <input type="file" onChange={handleUpload} className="file-input" />
-        </label>
+    <SEOWrapper>
+      <AdDisplay slot="your_ad_slot_id" />
+      <div className="app-container">
+        <div className="sidebar">
+          <h2>Customize Your T-Shirt</h2>
+          <label className="file-label">
+            <span>Upload Image</span>
+            <input type="file" onChange={handleUpload} className="file-input" />
+          </label>
 
-        <div className="color-picker">
-          <h3>Pick Shirt Color</h3>
-          <SketchPicker
-            color={shirtColor}
-            onChangeComplete={(color) => {
-              setShirtColor(color.hex);
-              updateShirtImageColor(color.hex);
-            }}
-          />
+          <div className="color-picker">
+            <h3>Pick Shirt Color</h3>
+            <SketchPicker
+              color={shirtColor}
+              onChangeComplete={(color) => {
+                setShirtColor(color.hex);
+                updateShirtImageColor(color.hex);
+              }}
+            />
+          </div>
+
+          <div className="export-buttons">
+            <button className="btn" onClick={() => captureStageAsImage()}>
+              Preview
+            </button>
+            <button className="btn" onClick={handleExportAsImage}>
+              Export as Image
+            </button>
+            <button className="btn" onClick={handleExportAsPDF}>
+              Export as PDF
+            </button>
+          </div>
         </div>
-
-        <div className="export-buttons">
-          <button className="btn" onClick={()=>captureStageAsImage()}>
-            Preview
-          </button>
-          <button className="btn" onClick={handleExportAsImage}>
-            Export as Image
-          </button>
-          <button className="btn" onClick={handleExportAsPDF}>
-            Export as PDF
-          </button>
+        <AdDisplay slot="another_ad_slot_id" />
+        <div className="stage-container" ref={stageContainerRef}>
+          <Stage width={600} height={600} ref={stageRef} className="konva-stage">
+            <Layer>
+              {shirtImage && <KonvaImage image={shirtImage} width={600} height={600} />}
+              {image && (
+                <KonvaImage
+                  image={image}
+                  draggable
+                  onClick={handleSelect}
+                  ref={selectedImage === 'uploadedImage' ? transformerRef : null}
+                />
+              )}
+              {transformerVisible && <Transformer ref={transformerRef} />}
+            </Layer>
+          </Stage>
         </div>
+        <AdDisplay slot="another_ad_slot_id" />
+        {/* Preview Modal */}
+        <Modal
+          isOpen={previewVisible}
+          onRequestClose={() => setPreviewVisible(false)}
+          contentLabel="Preview"
+          className="modal"
+          overlayClassName="overlay"
+        >
+          <h2>Design Preview</h2>
+          {previewImage && <img src={previewImage} alt="Preview" style={{ height: '600px' }} />}
+          <button className="btn" onClick={() => setPreviewVisible(true)}>
+            Close Preview
+          </button>
+        </Modal>
       </div>
-
-      <div className="stage-container" ref={stageContainerRef}>
-        <Stage width={600} height={600} ref={stageRef} className="konva-stage">
-          <Layer>
-            {shirtImage && <KonvaImage image={shirtImage} width={600} height={600} />}
-            {image && (
-              <KonvaImage
-                image={image}
-                draggable
-                onClick={handleSelect}
-                ref={selectedImage === 'uploadedImage' ? transformerRef : null}
-              />
-            )}
-            {transformerVisible && <Transformer ref={transformerRef} />}
-          </Layer>
-        </Stage>
-      </div>
-
-      {/* Preview Modal */}
-      <Modal
-        isOpen={previewVisible}
-        onRequestClose={() => setPreviewVisible(false)}
-        contentLabel="Preview"
-        className="modal"
-        overlayClassName="overlay"
-      >
-        <h2>Design Preview</h2>
-        {previewImage && <img src={previewImage} alt="Preview" style={{ height: '600px' }} />}
-        <button className="btn" onClick={() => setPreviewVisible(true)}>
-          Close Preview
-        </button>
-      </Modal>
-    </div>
+    </SEOWrapper>
   );
 };
 
