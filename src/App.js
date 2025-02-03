@@ -8,6 +8,7 @@ import Modal from 'react-modal';
 import './App.css';
 import SEOWrapper from './Helmet';
 // Set app element for react-modal
+import AdDisplay from './adsense';
 Modal.setAppElement('#root');
 
 const App = () => {
