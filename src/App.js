@@ -128,7 +128,7 @@ const App = () => {
 
   return (
     <SEOWrapper>
-      <AdDisplay slot="your_ad_slot_id" />
+      <AdDisplay slot="2276648312" />
       <div className="app-container">
         <div className="sidebar">
           <h2>Customize Your T-Shirt</h2>
@@ -160,7 +160,7 @@ const App = () => {
             </button>
           </div>
         </div>
-        <AdDisplay slot="another_ad_slot_id" />
+        <AdDisplay slot="1843196179" />
         <div className="stage-container" ref={stageContainerRef}>
           <Stage width={600} height={600} ref={stageRef} className="konva-stage">
             <Layer>
@@ -177,7 +177,7 @@ const App = () => {
             </Layer>
           </Stage>
         </div>
-        <AdDisplay slot="another_ad_slot_id" />
+        <AdDisplay slot="8217032832" />
         {/* Preview Modal */}
         <Modal
           isOpen={previewVisible}
